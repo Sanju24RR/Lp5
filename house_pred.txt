@@ -1,0 +1,49 @@
+pip install keras 
+pip install tensorflow 
+import numpy as np 
+import pandas as pd 
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LinearRegression 
+from sklearn.preprocessing import StandardScaler 
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score 
+import keras 
+from keras.models import Sequential 
+from keras.layers import Dense 
+boston = pd.read_csv("C:/Users/user/OneDrive/Documents/boston_house_prices.csv") 
+X = boston [['LSTAT', 'RM', 'PTRATIO']] 
+y = boston['PRICE'] 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=4) 
+scaler = StandardScaler()
+
+X_train_scaled=scaler.fit_transform(X_train) 
+X_test_scaled=scaler.transform(X_test) 
+Ir_model = LinearRegression() 
+lr_model.fit(X_train_scaled, y_train) 
+y_pred_lr = lr_model.predict(X_test_scaled) 
+mse_lr = mean_squared_error(y_test, y_pred_lr) 
+mae_lr = mean_absolute_error(y_test, y_pred_lr) 
+r2_lr = r2_score(y_test, y_pred_lr) 
+print("Linear Regression Model Evaluation:") 
+print (f"Mean Squared Error: (mse_lr)") 
+print (f"Mean Absolute Error: (mae_lr)") 
+print (f"R2 Score: {r2_1r)") 
+model = Sequential ([ 
+Dense (128, activation 'relu', input_dim=3), 
+Dense (64, activation='relu'), # Second hidden Layer with 64 neurons 
+Dense (32, activation='relu'), # Third hidden Layer with 32 neurons 
+Dense (16, activation 'relu'), # Fourth hidden Layer with 16 neurons 
+Dense (1) # Output Layer (Predicting a single value House Price) 
+1) 
+model.compile(optimizer='adam', loss='mse' metrics=['mae']) 
+history model.fit(X_train_scaled, y_train, epochs=100, validation_split=0.05, 
+verbose=1)
+
+y_pred_nn = model.predict(X_test_scaled) # Predicting house prices on test data 
+mse_nn, mae_nn = model.evaluate(X_test_scaled, y_test) 
+print("\nNeural Network Model Evaluation:") 
+print (f"Mean Squared Error: (mse_nn}") 
+print (f"Mean Absolute Error: {mae_nn}") 
+new_data = np.array ([[0.1, 10.0, 5.0]]) 
+new_data_scaled scaler.transform(new_data) 
+prediction = model.predict(new_data_scaled) 
+print("\nPredicted House Price:", prediction [0][0])

@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <omp.h>
+using namespace std;
+const int MAX = 100000;
+vector<int> graph[MAX];
+bool visited[MAX];
+void DFS(int node){
+    stack<int> s;
+    s.push(node);
+    while(!s.empty()){
+        int curr = s.top();
+        if(!visited[curr]){
+            visited[curr] =true;
+            s.pop();
+            cout<<curr<<" ";
+            #pragma omp parallel for
+            for(int i=0;i<graph[curr].size();i++){
+                int adj = graph[curr][i];
+                if(!visited[adj]){
+                    // visited[adj]=true;
+                    s.push(adj);
+                }
+            }
+        }
+    }
+}
+int main(){
+    int n,m,start;
+    cin>>n>>m>>start;
+    cout<<"Graph : ";
+    for(int i=0;i<m;i++){
+        int u,v;
+        cin>>u>>v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+    #pragma omp critical
+    for(int i=0;i<n;i++){
+        visited[i]=false;
+    }
+    DFS(start);
+    return 0;
+
+}
